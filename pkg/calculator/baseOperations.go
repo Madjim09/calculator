@@ -118,7 +118,10 @@ func calculation() {
 
 // outputResult выводит результат и запрашивает продолжение
 func outputResult() bool {
-	fmt.Printf("%.3f %s %.3f = %.3f\n", val1, oper, val2, res)
+	strVal1 := formatFloat(val1)
+	strVal2 := formatFloat(val2)
+	strRes := formatFloat(res)
+	fmt.Printf("%s %s %s = %s\n", strVal1, oper, strVal2, strRes)
 
 	fmt.Print("Хотите продолжить? [y/n]: ")
 	scanner := bufio.NewScanner(os.Stdin)
@@ -139,3 +142,10 @@ func outputResult() bool {
 }
 
 // TODO: Функция форматирования итогового результата, вывод чисел без нулей
+func formatFloat(val float64) string {
+	str := fmt.Sprintf("%.3f", val)
+	str = strings.TrimRight(str, "0")
+	str = strings.TrimRight(str, ".")
+	str = strings.ReplaceAll(str, ".", ",")
+	return str
+}
