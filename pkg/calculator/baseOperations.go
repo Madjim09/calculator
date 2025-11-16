@@ -17,25 +17,23 @@ var (
 
 // RunCalculatorSession запускает калькулятор
 func RunCalculatorSession() bool {
-	val1, val2, oper = readUserInput()
-	res = calculation(val1, val2, oper)
-	return outputResult(res, val1, val2, oper)
+	readUserInput()
+	calculation()
+	return outputResult()
 }
 
 // readUserInput читает пользовательский ввод
-func readUserInput() (float64, float64, string) {
+func readUserInput() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	fmt.Print("Введите левый операнд: ")
-	val1 := readFloat(scanner)
+	val1 = readFloat(scanner)
 
 	fmt.Print("Введите операцию: ")
-	op := readValidOperand(scanner)
+	oper = readValidOperand(scanner)
 
 	fmt.Print("Введите правый операнд: ")
-	val2 := readFloat(scanner)
-
-	return val1, val2, op
+	val2 = readFloat(scanner)
 }
 
 // readFloat читает операнды
@@ -93,15 +91,18 @@ func readValidOperand(scanner *bufio.Scanner) string {
 }
 
 // calculation выполняет операции
-func calculation(val1, val2 float64, operator string) float64 {
+func calculation() {
 	for {
-		switch operator {
+		switch oper {
 		case "+":
-			return val1 + val2
+			res = val1 + val2
+			return
 		case "-":
-			return val1 - val2
+			res = val1 - val2
+			return
 		case "*":
-			return val1 * val2
+			res = val1 * val2
+			return
 		case "/":
 			for val2 == 0 {
 				fmt.Println("Деление на ноль невозможно.")
@@ -109,14 +110,15 @@ func calculation(val1, val2 float64, operator string) float64 {
 				scanner := bufio.NewScanner(os.Stdin)
 				val2 = readFloat(scanner)
 			}
-			return val1 / val2
+			res = val1 / val2
+			return
 		}
 	}
 }
 
 // outputResult выводит результат и запрашивает продолжение
-func outputResult(res, val1, val2 float64, op string) bool {
-	fmt.Printf("%.3f %s %.3f = %.3f\n", val1, op, val2, res)
+func outputResult() bool {
+	fmt.Printf("%.3f %s %.3f = %.3f\n", val1, oper, val2, res)
 
 	fmt.Print("Хотите продолжить? [y/n]: ")
 	scanner := bufio.NewScanner(os.Stdin)
@@ -135,3 +137,5 @@ func outputResult(res, val1, val2 float64, op string) bool {
 		}
 	}
 }
+
+// TODO: Функция форматирования итогового результата, вывод чисел без нулей
