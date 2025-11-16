@@ -9,10 +9,16 @@ import (
 	"strings"
 )
 
+var (
+	val1, val2 float64
+	oper       string
+	res        float64
+)
+
 // RunCalculatorSession запускает калькулятор
 func RunCalculatorSession() bool {
-	val1, val2, oper := readUserInput()
-	res := calculation(val1, val2, oper)
+	val1, val2, oper = readUserInput()
+	res = calculation(val1, val2, oper)
 	return outputResult(res, val1, val2, oper)
 }
 
